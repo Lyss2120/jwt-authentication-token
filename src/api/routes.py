@@ -17,12 +17,15 @@ api = Blueprint('api', __name__)
 def create_token():
         email = request.json.get("email", None)
         password = request.json.get("password", None)
-        if email and email != "" and email != undefined: 
-            return jsonify({"msg": "Bad email or password"}), 401
+        user =  User.query.filter_by(email=email, password=password).first()
+        # return jsonify(user.serialize())// con este return me da el user email y id o un none// usa el serialize para retornar algo legible pero seria como un true false
+        if User is None:
+            # el usuario no se encontró en la base de datos
+            return jsonify({"msg": "Bad username or password"}), 401
 
         expiration_time = datetime.timedelta(minutes=5)
         access_token = create_access_token(identity=email, expires_delta=expiration_time)
-        return jsonify({"access_token": access_token, "email": email})
+        return jsonify({"token": access_token, "user": user.serialize()}), 200
 
 
 @api.route("/register", methods=["POST"])#funciona
@@ -31,7 +34,7 @@ def register_new_user():
         password = request.json.get("password", None)
         repetido = User.query.filter_by(email=email).first()
 
-        if email == repetido:
+        if repetido:
             return jsonify({"msg": "this email has already been added to the database"})
         else:
             user = User(email=email, password=password, is_active = True)
@@ -39,23 +42,17 @@ def register_new_user():
             db.session.commit()
 
         return jsonify({"usuario añadido": email,
-                        "pass": password})
+                        "pass": password
+                        })
 
 
 @api.route('/hello', methods=['GET'])
 @jwt_required()
 def handle_hello():
-        # body = request.get_json() # obtener el request body de la solicitud
-        # if body is None:
-        #     return "The request body is null", 400
-        # if 'email' not in body or 'password' not in body:
-        #     return "You have to send both email and password in the request body", 400
-  
-        # user = User.query.filter_by(email=body["email"]).first()
-        # if (user):
-        dictionary = {
-            "message": "Now you can access to the private route with your token!"
-            # "user": user.serialize()
-        }
+        current_user_id = get_jwt_identity()
+        user = User.query.filter_by(email=current_user_id).first()
+        return jsonify({"message": "Click here! Now you can access to the private route",
+                        "user": user.serialize()}), 200
 
-        return jsonify(dictionary), 200
+
+

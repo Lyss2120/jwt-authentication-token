@@ -17,14 +17,23 @@ export const Home = () => {
 	return (
 		<div className="text-center mt-5 py-2 alert-info">
 			<div>
-			<iframe src="https://giphy.com/embed/KiMBUPZUhUg4HRV6PW" height="200" frameBorder="0" className="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/hello-hi-hey-KiMBUPZUhUg4HRV6PW">via GIPHY</a></p>
+				<iframe src="https://giphy.com/embed/KiMBUPZUhUg4HRV6PW" height="200" frameBorder="0" className="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/hello-hi-hey-KiMBUPZUhUg4HRV6PW">via GIPHY</a></p>
 			</div>
 
 			<div className="alert alert-info text-secondary fs-3">
 				{store.token && store.token != "" && store.token != undefined ?
-					<Link to="/privada" ><h2>Welcome {store.email}!! </h2>{store.message}</Link>
+					<Link to="/privada" className="text-decoration-none text-secondary"><h2>Welcome {store.user}!! </h2>{store.message}</Link>
 					:
-					<Link to="/login" ><p>Bienvenido! inicia sesión para continuar</p></Link>
+					<div>
+						<h1>Bienvenido!</h1>
+						<Link to="/login" className="text-decoration-none text-secondary">
+							<span> Inicia sesión </span>
+						</Link>
+						<Link to="/signIn" className="text-decoration-none text-secondary" > 
+						<span> o Regístrate </span>
+						</Link>
+						<span>para continuar</span>
+					</div>
 				}
 			</div>
 			<p>

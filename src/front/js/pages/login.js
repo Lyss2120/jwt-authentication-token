@@ -10,12 +10,15 @@ export const Login = () => {
 	const [password, setPassword] = useState("");
 	const navigate = useNavigate()
 
-	console.log("this is your token: ", store.token);
 
 	const handleClick = () => {
 		actions.login(email, password)		
+		console.log("this is your user: ", store.user);
+		console.log("this is your token: ", store.token);
+
 	}
-	if (store.token && store.token != "" && store.token != undefined) navigate("/");
+	//para redirigir al home si esta logueado?
+	 if (store.token && store.token != "" && store.token != undefined) navigate("/");
 
 	return (
 		<div className="text-center mt-5 alert-info text-secondary fs-3 py-5">
@@ -23,7 +26,7 @@ export const Login = () => {
 			{store.token && store.token != "" && store.token != undefined ?
 				(
 					<div className="container">					
-						{"you are logged in with this token: " + store.token}
+						{ "Welcome " + store.user  + " you are logged in with this token: " + store.token }
 					</div>
 				) : (
 					<div>
