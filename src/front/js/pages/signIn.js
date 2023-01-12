@@ -20,7 +20,7 @@ export const SignIn = () => {
 
 			<div className="text-center mt-5 alert-info text-secondary fs-3 py-5">
 				<h1>Sign In</h1>
-				<div>
+				<div className="pb-5">
 					<input type="text" placeholder="email" value={email1} onChange={(e) => setEmail1(e.target.value)} />
 					<input type="password" placeholder="password" value={password1} onChange={(e) => setPassword1(e.target.value)} />
 					<button onClick={handleRegister}>Submit</button>

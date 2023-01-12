@@ -40,6 +40,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ token: null }) //cambia el valor de la variable en el store al token que esta trayendo en actionToken
 			},
 
+
 			login: async (email, password) => {
 				const store = getStore;
 				const resp = await fetch("https://3001-lyss2120-jwtauthenticat-10cd6usbs5y.ws-us82.gitpod.io/api/token", {
